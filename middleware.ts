@@ -8,10 +8,13 @@
 //   matcher: ["/((?!api))(_next.*|.+.[w]+$)", "/api/webhook"],
 // };
 
-import { authMiddleware } from "@clerk/nextjs";
+// import { authMiddleware } from "@clerk/nextjs";
 
-export default authMiddleware();
+// export default authMiddleware({
+//   publicRoutes: ["/api/webhook"],
+//   ignoredRoutes: ["/((?!api|trpc))(_next.*|.+.[w]+$)", "/api/webhook"],
+// });
 
-export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api)(.*)"],
-};
+// export const config = {
+//   matcher: ["/((?!.+\\.[\\w]+$|_next).*)"],
+// };
