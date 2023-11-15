@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1700064710391,
+      "tag": "0000_early_gladiator",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1700064724339,
+      "tag": "0001_premium_sabra",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1700067200773,
+      "tag": "0002_mute_big_bertha",
+      "breakpoints": true
+    }
+  ]
+}

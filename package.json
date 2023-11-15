@@ -7,13 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "drizzle-kit generate:pg"
+    "db:migrate": "drizzle-kit generate:pg",
+    "db:push": "yarn db:migrate && drizzle-kit push:pg"
   },
   "dependencies": {
-    "@vercel/postgres": "^0.5.1",
     "clsx": "^2.0.0",
     "drizzle-orm": "^0.29.0",
     "next": "14.0.2",
+    "postgres": "^3.4.3",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.0.0"

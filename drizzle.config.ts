@@ -1,13 +1,12 @@
-import type { Config } from "drizzle-kit";
+import { defineConfig } from "drizzle-kit";
 
-export default {
+export default defineConfig({
   schema: "./db/schema.ts",
-  out: "./db/generations",
-  // driver: "pg", // 'pg' | 'mysql2' | 'better-sqlite' | 'libsql' | 'turso'
-  // dbCredentials: {
-  //   host: process.env.DB_HOST,
-  //   user: process.env.DB_USER,
-  //   password: process.env.DB_PASSWORD,
-  //   database: process.env.DB_NAME,
-  // },
-} satisfies Config;
+  out: "./db/migrations",
+  driver: "pg",
+  verbose: true,
+  strict: true,
+  dbCredentials: {
+    connectionString: process.env.DATABASE_URL || "",
+  },
+});
