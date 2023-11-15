@@ -1,13 +1,12 @@
-import { db } from "@/db";
-import { group } from "@/db/schema";
+import { SignIn, UserButton } from "@clerk/nextjs";
 
 export default async function Home() {
-  const data = await db.select().from(group).limit(3);
-
   return (
     <main className="p-12">
       <h1 className="mb-12 text-3xl font-semibold">home page</h1>
-      <span>{JSON.stringify(data)}</span>
+      <span>HOME</span>
+      <SignIn />
+      <UserButton afterSignOutUrl="/" />
     </main>
   );
 }

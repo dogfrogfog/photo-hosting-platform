@@ -11,12 +11,14 @@
     "db:push": "yarn db:migrate && drizzle-kit push:pg"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.27.1",
     "clsx": "^2.0.0",
     "drizzle-orm": "^0.29.0",
     "next": "14.0.2",
     "postgres": "^3.4.3",
     "react": "^18",
     "react-dom": "^18",
+    "svix": "^1.13.0",
     "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
