@@ -7,6 +7,8 @@ export default function NewGroup() {
     try {
       await db.insert(group).values({
         name: (form.get("name") as string) || "Untitled",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
     } catch (e) {
       console.log("failed to create group");

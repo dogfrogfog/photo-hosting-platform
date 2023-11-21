@@ -59,6 +59,8 @@ export async function POST(req: Request) {
     clerkId: id,
     firstName: first_name,
     lastName: last_name,
+    updatedAt: new Date(),
+    createdAt: new Date(),
   });
 
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
