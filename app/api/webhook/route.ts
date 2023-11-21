@@ -2,6 +2,8 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
+import { db, user } from "@/db";
+
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -53,11 +55,11 @@ export async function POST(req: Request) {
   const { id, first_name, last_name } = evt.data;
   const eventType = evt.type;
 
-  // await db.insert(user).values({
-  //   clerkId: id,
-  //   firstName: first_name,
-  //   lastName: last_name,
-  // });
+  await db.insert(user).values({
+    clerkId: id,
+    firstName: first_name,
+    lastName: last_name,
+  });
 
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
   console.log("Webhook body:", body);
