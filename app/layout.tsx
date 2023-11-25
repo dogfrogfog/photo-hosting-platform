@@ -39,7 +39,9 @@ export default function RootLayout({
             </div>
             <span className="text-center text-sm">copyright @ 2023</span>
           </div>
-          <div className="flex-grow">{children}</div>
+          <div className="max-h-screen flex-grow overflow-y-auto">
+            {children}
+          </div>
         </body>
       </html>
     </ClerkProvider>

@@ -36,6 +36,13 @@
       "when": 1700600749497,
       "tag": "0004_steep_cobalt_man",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1700843135516,
+      "tag": "0005_modern_joystick",
+      "breakpoints": true
     }
   ]
 }

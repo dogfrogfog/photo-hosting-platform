@@ -1,35 +1,21 @@
-import { SubmitButton } from "@/components/button";
+import { GroupForm } from "./GroupForm";
+
 import { db, group } from "@/db";
 
-export default function NewGroup() {
-  async function createGroup(form: FormData) {
-    "use server";
-    try {
-      await db.insert(group).values({
-        name: (form.get("name") as string) || "Untitled",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-    } catch (e) {
-      console.log("failed to create group");
-      console.log(e);
-    }
-  }
+async function createGroup(form: any) {
+  "use server";
+  await db.insert(group).values({
+    ...form,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+}
 
+export default function NewGroup() {
   return (
     <main className="p-12">
-      <h1 className="mb-12 text-3xl font-semibold">Groups of photos</h1>
-      <div className="mb-12 rounded-xl bg-slate-600 p-6">
-        <form action={createGroup as any}>
-          <input
-            type="text"
-            name="name"
-            placeholder="my-summer-trip-to-amsterdam"
-            className="mb-2 w-96 rounded bg-white p-2"
-          />
-          <SubmitButton />
-        </form>
-      </div>
+      <h1 className="mb-12 text-3xl font-semibold">Create new group</h1>
+      <GroupForm onSubmit={createGroup} />
     </main>
   );
 }

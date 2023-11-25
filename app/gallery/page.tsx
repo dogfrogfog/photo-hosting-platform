@@ -1,3 +1,12 @@
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -31,14 +40,25 @@ async function Groups() {
 
   return (
     <div className="grid grid-cols-3 gap-6">
-      {data.map(({ id, name, createdAt }) => (
+      {data.map(({ id, name, description, createdAt, filmModel, to, from }) => (
         <Link href={`/g/${id}`} key={id}>
-          <div className="col-span-1 h-[200px] rounded-xl bg-yellow-100 p-6 shadow">
-            <span className="text-xl font-semibold text-gray-500">{name}</span>
-            <span className="text-xl font-semibold text-gray-500">
-              {createdAt?.toDateString()}
-            </span>
-          </div>
+          <Card className="col-span-1">
+            <CardHeader>
+              <CardTitle>{name}</CardTitle>
+              <CardDescription>{description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {filmModel}
+              {/* {to} - {from} */}
+              <span className="text-xs">
+                created at:{createdAt?.toDateString()}
+              </span>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <Button variant="outline">Cancel</Button>
+              <Button>Deploy</Button>
+            </CardFooter>
+          </Card>
         </Link>
       ))}
     </div>
