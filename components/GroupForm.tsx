@@ -1,4 +1,6 @@
 "use client";
+import { MultipleFilesSelector } from "@/components/MultipleFilesSelector";
+import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -30,10 +32,12 @@ const formSchema = z.object({
   }),
   to: z.date().nullable(),
   from: z.date().nullable(),
+  photos: z.array(z.any()).min(1),
 });
 
 export function GroupForm({ onSubmit }: any) {
   const router = useRouter();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,15 +47,20 @@ export function GroupForm({ onSubmit }: any) {
       filmModel: "",
       to: null,
       from: null,
+      photos: [],
     },
   });
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      await onSubmit(values);
-      form.reset();
-      router.push("/gallery");
+      console.log(values);
+      // await onSubmit(values);
+      // form.reset();
+      // toast({
+      //   description: `Group "${values.name}" created 🎉!`,
+      // });
+      // router.push("/gallery");
     } catch (e) {
       console.log("failed to create group");
       console.log(e);
@@ -117,12 +126,24 @@ export function GroupForm({ onSubmit }: any) {
         <FormField
           control={form.control}
           name="to"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>time frame</FormLabel>
               <FormControl>
-                {/* @ts-ignore */}
                 <DatePickerWithRange disabled={isLoading} {...form} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="photos"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Photos</FormLabel>
+              <FormControl>
+                <MultipleFilesSelector field={field} form={form} />
               </FormControl>
               <FormMessage />
             </FormItem>

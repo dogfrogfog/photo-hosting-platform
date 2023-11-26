@@ -1,4 +1,4 @@
-import { GroupForm } from "./GroupForm";
+import { GroupForm } from "../../../components/GroupForm";
 
 import { db, group } from "@/db";
 
