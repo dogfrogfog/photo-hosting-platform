@@ -11,8 +11,10 @@ import { format } from "date-fns";
 import { desc } from "drizzle-orm";
 import Link from "next/link";
 
+export const revalidate = 86400;
+
 export async function GroupsGallery() {
-  const data = await await db
+  const data = await db
     .select()
     .from(group)
     .orderBy(desc(group.updatedAt))
