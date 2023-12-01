@@ -19,4 +19,5 @@ export const user = pgTable("user", {
   lastName: text("last_name"),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
+  role: text("role").default("user"),
 });

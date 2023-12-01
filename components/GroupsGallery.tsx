@@ -6,13 +6,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { db, group } from "@/db";
 import { format } from "date-fns";
+import { desc } from "drizzle-orm";
 import Link from "next/link";
 
-import { db, group } from "@/db";
-
 export async function GroupsGallery() {
-  const data = await db.select().from(group).limit(4);
+  const data = await await db
+    .select()
+    .from(group)
+    .orderBy(desc(group.updatedAt))
+    .limit(30);
 
   return (
     <div className="grid grid-cols-2 gap-6 xl:grid-cols-3">

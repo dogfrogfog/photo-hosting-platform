@@ -25,6 +25,7 @@ export default async function GroupPage({ params: { groupId } }: any) {
       .update(group)
       .set({
         photosUrls: [...existingImagesUrls, ...urls],
+        updatedAt: new Date(),
       })
       .where(eq(group.id, groupId));
   }
