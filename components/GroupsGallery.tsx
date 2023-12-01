@@ -14,11 +14,8 @@ import { db, group } from "@/db";
 export async function GroupsGallery() {
   const data = await db.select().from(group).limit(4);
 
-  console.log("data");
-  console.log(data);
-
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-2 gap-6 xl:grid-cols-3">
       {data.map(({ id, name, description, createdAt, filmModel, to, from }) => (
         <Link href={`/g/${id}`} key={id} className="col-span-2 md:col-span-1">
           <Card>

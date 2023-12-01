@@ -9,6 +9,7 @@ export const group = pgTable("group", {
   from: timestamp("from"),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
+  photosUrls: text("photos_urls").array(),
 });
 
 export const user = pgTable("user", {

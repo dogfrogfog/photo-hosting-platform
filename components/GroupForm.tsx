@@ -1,5 +1,4 @@
 "use client";
-import { MultipleFilesSelector } from "@/components/MultipleFilesSelector";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -8,6 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
+
 import {
   Form,
   FormControl,
@@ -32,7 +32,6 @@ const formSchema = z.object({
   }),
   to: z.date().nullable(),
   from: z.date().nullable(),
-  photos: z.array(z.any()).min(1),
 });
 
 export function GroupForm({ onSubmit }: any) {
@@ -47,20 +46,19 @@ export function GroupForm({ onSubmit }: any) {
       filmModel: "",
       to: null,
       from: null,
-      photos: [],
     },
   });
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      console.log(values);
-      // await onSubmit(values);
-      // form.reset();
-      // toast({
-      //   description: `Group "${values.name}" created 🎉!`,
-      // });
-      // router.push("/gallery");
+      const { groupId } = await onSubmit(values);
+
+      form.reset();
+      toast({
+        description: `Group "${values.name}" created 🎉!`,
+      });
+      router.push(`/g/${groupId}`);
     } catch (e) {
       console.log("failed to create group");
       console.log(e);
@@ -136,21 +134,8 @@ export function GroupForm({ onSubmit }: any) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="photos"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Photos</FormLabel>
-              <FormControl>
-                <MultipleFilesSelector field={field} form={form} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <Button disabled={isLoading} type="submit">
-          Submit
+          Create
         </Button>
       </form>
     </Form>
