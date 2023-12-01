@@ -28,7 +28,7 @@ export default function Sidebar() {
         className="fixed left-0 top-0 z-40 h-screen w-48 -translate-x-full transition-transform sm:translate-x-0 lg:w-64"
         aria-label="Sidebar"
       >
-        <div className="h-full overflow-y-auto bg-blue-200 p-6 dark:bg-gray-800">
+        <div className="h-full overflow-y-auto bg-blue-200 p-6 shadow-xl dark:bg-gray-800">
           <div className="mb-16 text-3xl font-bold">logo</div>
           <ul className="space-y-2 font-medium">
             <li>
