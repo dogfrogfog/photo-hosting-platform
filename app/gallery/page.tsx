@@ -5,8 +5,6 @@ import { Suspense } from "react";
 
 import { GroupsGallery } from "@/components/GroupsGallery";
 
-export const revalidate = 86400;
-
 export default function PersonalGallery() {
   return (
     <>

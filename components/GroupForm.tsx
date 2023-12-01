@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import {
   Form,
@@ -32,6 +33,7 @@ const formSchema = z.object({
   }),
   to: z.date().nullable(),
   from: z.date().nullable(),
+  public: z.boolean().default(false),
 });
 
 export function GroupForm({ onSubmit }: any) {
@@ -46,6 +48,7 @@ export function GroupForm({ onSubmit }: any) {
       filmModel: "",
       to: null,
       from: null,
+      public: false,
     },
   });
 
@@ -131,6 +134,23 @@ export function GroupForm({ onSubmit }: any) {
                 <DatePickerWithRange disabled={isLoading} {...form} />
               </FormControl>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="public"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="leading-none">
+                <FormLabel>You photos will be public.</FormLabel>
+              </div>
             </FormItem>
           )}
         />

@@ -71,6 +71,13 @@
       "when": 1701457966027,
       "tag": "0009_messy_triathlon",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1701459033216,
+      "tag": "0010_faithful_moonstone",
+      "breakpoints": true
     }
   ]
 }
