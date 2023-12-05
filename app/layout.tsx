@@ -1,5 +1,7 @@
 import Sidebar from "@/components/Sidebar";
+import { buttonVariants } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib";
 import {
   ClerkProvider,
   SignInButton,
@@ -29,9 +31,18 @@ export default function RootLayout({
         <body className={inter.className}>
           <Sidebar />
           <div className="sm:ml-48 lg:ml-64">
-            <header className="m-3 flex h-20 justify-end rounded-xl bg-gray-500 p-6 shadow-xl">
+            <header className="m-3 flex h-20 items-center justify-end rounded-xl bg-gray-500 p-6 shadow-xl">
               <SignedOut>
-                <SignInButton />
+                <SignInButton>
+                  <span
+                    className={cn(
+                      buttonVariants({ variant: "outline" }),
+                      "cursor-pointer",
+                    )}
+                  >
+                    Sign In
+                  </span>
+                </SignInButton>
               </SignedOut>
               <UserButton afterSignOutUrl="/" />
             </header>
