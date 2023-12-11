@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const group = pgTable("group", {
   id: serial("id").primaryKey(),
@@ -10,7 +10,7 @@ export const group = pgTable("group", {
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
   photosUrls: text("photos_urls").array(),
-  public: text("public").default("false"),
+  public: boolean("public").default(false),
 });
 
 export const user = pgTable("user", {
