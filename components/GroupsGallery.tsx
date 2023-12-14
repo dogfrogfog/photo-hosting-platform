@@ -8,13 +8,17 @@ import {
 } from "@/components/ui/card";
 import { db, group } from "@/db";
 import { format } from "date-fns";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
+import { boolean } from "drizzle-orm/mysql-core";
 import Link from "next/link";
 
-export async function GroupsGallery() {
+export async function GroupsGallery(
+  { onlyPublicGroups = false } = { onlyPublicGroups: boolean },
+) {
   const data = await db
     .select()
     .from(group)
+    .where(onlyPublicGroups ? eq(group.public, true) : undefined)
     .orderBy(desc(group.updatedAt))
     .limit(30);
 
