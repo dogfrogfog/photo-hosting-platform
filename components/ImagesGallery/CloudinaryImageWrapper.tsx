@@ -1,7 +1,7 @@
 "use client";
 import { CldImage } from "next-cloudinary";
 
-export function GalleryImage({ url }: { url: string }) {
+export function CloudinaryImageWrapper({ url }: { url: string }) {
   return (
     <CldImage
       width="450"

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { DeleteAndConfirm } from "@/components/DeleteAndConfirm";
-import { GalleryImage } from "@/components/GalleryImage";
+import { ImagesGallery } from "@/components/ImagesGallery";
 import { UploadButton } from "@/components/UploadButton";
 import { Button } from "@/components/ui/button";
 import { db, group } from "@/db";
@@ -73,11 +73,7 @@ export default async function GroupPage({ params: { groupId } }: any) {
           </span>
         </p>
       )}
-      <div className="grid grid-cols-3 gap-6">
-        {groupData?.photosUrls?.map((url: string) => (
-          <GalleryImage url={url} key={url} />
-        ))}
-      </div>
+      <ImagesGallery photoUrls={groupData?.photosUrls || []} />
     </main>
   );
 }
