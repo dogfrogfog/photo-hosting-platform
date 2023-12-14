@@ -1,7 +1,9 @@
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
+import { DeleteAndConfirm } from "@/components/DeleteAndConfirm";
 import { GalleryImage } from "@/components/GalleryImage";
 import { UploadButton } from "@/components/UploadButton";
 import { Button } from "@/components/ui/button";
@@ -33,6 +35,13 @@ export default async function GroupPage({ params: { groupId } }: any) {
       .where(eq(group.id, groupId));
   }
 
+  async function deleteGroup() {
+    "use server";
+    await db.delete(group).where(eq(group.id, groupId));
+
+    redirect("/gallery");
+  }
+
   return (
     <main className="p-12">
       <div className="flex justify-between">
@@ -41,8 +50,9 @@ export default async function GroupPage({ params: { groupId } }: any) {
           <div className="space-x-4">
             <UploadButton uploadGroupImages={uploadGroupImages} />
             <Button asChild variant={"outline"}>
-              <Link href={`/g/${groupId}/edit`}>Edit Group</Link>
+              <Link href={`/g/${groupId}/edit`}>Edit</Link>
             </Button>
+            <DeleteAndConfirm deleteGroup={deleteGroup} />
           </div>
         </SignedIn>
       </div>
