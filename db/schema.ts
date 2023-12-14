@@ -31,11 +31,11 @@ export const image = pgTable("image", {
 });
 
 export const groupsRelations = relations(group, ({ many }) => ({
-  image: many(image),
+  images: many(image),
 }));
 
 export const imagesRelations = relations(image, ({ one }) => ({
-  author: one(group, {
+  group: one(group, {
     fields: [image.groupId],
     references: [group.id],
   }),
