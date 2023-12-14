@@ -1,4 +1,12 @@
-import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import {
+  boolean,
+  integer,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 export const group = pgTable("group", {
   id: serial("id").primaryKey(),
@@ -12,6 +20,26 @@ export const group = pgTable("group", {
   photosUrls: text("photos_urls").array(),
   public: boolean("public").default(false),
 });
+
+export const image = pgTable("image", {
+  id: serial("id").primaryKey(),
+  createdAt: timestamp("created_at"),
+  filename: text("filename"),
+  publicId: text("public_id"),
+  publicUrl: text("public_url"),
+  groupId: integer("group_id"),
+});
+
+export const groupsRelations = relations(group, ({ many }) => ({
+  image: many(image),
+}));
+
+export const imagesRelations = relations(image, ({ one }) => ({
+  author: one(group, {
+    fields: [image.groupId],
+    references: [group.id],
+  }),
+}));
 
 export const user = pgTable("user", {
   id: serial("id").primaryKey(),

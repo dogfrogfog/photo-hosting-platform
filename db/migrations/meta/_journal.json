@@ -85,6 +85,13 @@
       "when": 1702313385973,
       "tag": "0011_fixed_viper",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1702581077433,
+      "tag": "0012_lonely_red_hulk",
+      "breakpoints": true
     }
   ]
 }
