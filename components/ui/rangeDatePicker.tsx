@@ -19,9 +19,11 @@ export function DatePickerWithRange({
   disabled,
   ...form
 }: React.HTMLAttributes<HTMLDivElement> & UseFormReturn & any) {
+  const { to, from } = form.getValues() || {};
+
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: undefined,
-    to: undefined,
+    from,
+    to,
   });
 
   function handleSelect(date: DateRange | undefined) {

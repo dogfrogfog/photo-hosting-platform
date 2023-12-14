@@ -1,9 +1,12 @@
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
+import Link from "next/link";
 
 import { GalleryImage } from "@/components/GalleryImage";
 import { UploadButton } from "@/components/UploadButton";
+import { Button } from "@/components/ui/button";
 import { db, group } from "@/db";
+import { SignedIn } from "@clerk/nextjs";
 
 export default async function GroupPage({ params: { groupId } }: any) {
   const groupData = await db.query.group.findFirst({
@@ -32,10 +35,21 @@ export default async function GroupPage({ params: { groupId } }: any) {
 
   return (
     <main className="p-12">
-      <h1 className="mb-4 text-3xl font-bold">name: {groupData?.name}</h1>
+      <div className="flex justify-between">
+        <h1 className="mb-4 text-3xl font-bold">name: {groupData?.name}</h1>
+        <SignedIn>
+          <div className="space-x-4">
+            <UploadButton uploadGroupImages={uploadGroupImages} />
+            <Button asChild variant={"outline"}>
+              <Link href={`/g/${groupId}/edit`}>Edit Group</Link>
+            </Button>
+          </div>
+        </SignedIn>
+      </div>
       <h2 className="mb-4 text-xl font-bold">
         description: {groupData?.description}
       </h2>
+      <p className="mb-4">public: {groupData?.public ? "true" : "false"}</p>
       <p className="mb-4">film: {groupData?.filmModel}</p>
       {groupData?.from && groupData?.to && (
         <p className="text-md mb-12">
@@ -49,12 +63,10 @@ export default async function GroupPage({ params: { groupId } }: any) {
           </span>
         </p>
       )}
-      <UploadButton uploadGroupImages={uploadGroupImages} className="mb-12" />
       <div className="grid grid-cols-3 gap-6">
         {groupData?.photosUrls?.map((url: string) => (
           <GalleryImage url={url} key={url} />
         ))}
-        <h2 className="mb-4 text-xl">taken shots</h2>
       </div>
     </main>
   );

@@ -1,3 +1,5 @@
+import { revalidatePath } from "next/cache";
+
 import { GroupForm } from "../../../components/GroupForm";
 
 import { db, group } from "@/db";
@@ -11,6 +13,8 @@ async function createGroup(form: any) {
       updatedAt: new Date(),
     })
     .returning({ groupId: group.id });
+
+  revalidatePath(`/gallery`);
 
   return { groupId };
 }

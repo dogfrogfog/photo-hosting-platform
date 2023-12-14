@@ -36,19 +36,25 @@ const formSchema = z.object({
   public: z.boolean().default(false),
 });
 
-export function GroupForm({ onSubmit }: any) {
+export function GroupForm({
+  onSubmit,
+  initialData,
+}: {
+  onSubmit: any;
+  initialData?: any;
+}) {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      filmModel: "",
-      to: null,
-      from: null,
-      public: false,
+      name: initialData?.name || "",
+      description: initialData?.description || "",
+      filmModel: initialData?.filmModel || "",
+      to: initialData?.to || null,
+      from: initialData?.from || null,
+      public: initialData?.public || false,
     },
   });
 
@@ -59,7 +65,7 @@ export function GroupForm({ onSubmit }: any) {
 
       form.reset();
       toast({
-        description: `Group "${values.name}" created 🎉!`,
+        description: `Group "${values.name}" created/updated 🎉!`,
       });
       router.push(`/g/${groupId}`);
     } catch (e) {
@@ -155,7 +161,7 @@ export function GroupForm({ onSubmit }: any) {
           )}
         />
         <Button disabled={isLoading} type="submit">
-          Create
+          {!!initialData ? "Update" : "Create"}
         </Button>
       </form>
     </Form>

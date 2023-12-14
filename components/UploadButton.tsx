@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export function UploadButton({
-  className,
   uploadGroupImages,
 }: {
-  className: string;
   uploadGroupImages: any;
 }) {
   const router = useRouter();
@@ -24,7 +22,7 @@ export function UploadButton({
   };
 
   return (
-    <Button asChild className={className}>
+    <Button asChild>
       <CldUploadButton
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
         options={{ folder: process.env.NEXT_PUBLIC_CLOUDINARY_FOLDER }}
