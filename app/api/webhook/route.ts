@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { Webhook } from "svix";
 
 import { db, user } from "@/db";
+import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -54,14 +55,35 @@ export async function POST(req: Request) {
   // @ts-ignore
   const { id, first_name, last_name } = evt.data;
   const eventType = evt.type;
+  const clerkId = id as string;
 
-  await db.insert(user).values({
-    clerkId: id,
-    firstName: first_name,
-    lastName: last_name,
-    updatedAt: new Date(),
-    createdAt: new Date(),
-  });
+  switch (eventType) {
+    case "user.created":
+      console.log("created");
+      await db.insert(user).values({
+        clerkId: id,
+        firstName: first_name,
+        lastName: last_name,
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      });
+      break;
+    case "user.updated":
+      console.log("updated");
+      await db
+        .update(user)
+        .set({ firstName: first_name, lastName: last_name })
+        .where(eq(user.clerkId, clerkId));
+      break;
+    case "user.deleted":
+      console.log("deleted");
+      await db.delete(user).where(eq(user.clerkId, clerkId));
+      break;
+    default:
+      return new Response("Error occured -- invalid event type", {
+        status: 400,
+      });
+  }
 
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
   console.log("Webhook body:", body);
