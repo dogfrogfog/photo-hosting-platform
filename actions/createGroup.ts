@@ -17,6 +17,7 @@ export async function createGroup(form: any) {
       ...form,
       createdAt: new Date(),
       updatedAt: new Date(),
+      userClerkId: userId,
     })
     .returning({ groupId: group.id });
 

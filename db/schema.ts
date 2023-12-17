@@ -1,12 +1,5 @@
 import { relations } from "drizzle-orm";
-import {
-  boolean,
-  integer,
-  pgTable,
-  serial,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const group = pgTable("group", {
   id: serial("id").primaryKey(),
@@ -19,7 +12,7 @@ export const group = pgTable("group", {
   updatedAt: timestamp("updated_at"),
   photosUrls: text("photos_urls").array(),
   public: boolean("public").default(false),
-  userId: integer("user_id"),
+  userClerkId: text("user_clerk_id").notNull(),
 });
 
 export const user = pgTable("user", {
@@ -39,7 +32,7 @@ export const userRelations = relations(user, ({ many }) => ({
 
 export const groupRelations = relations(group, ({ one }) => ({
   user: one(user, {
-    fields: [group.userId],
-    references: [user.id],
+    fields: [group.userClerkId],
+    references: [user.clerkId],
   }),
 }));
