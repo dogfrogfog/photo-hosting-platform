@@ -13,9 +13,6 @@ import { SignedIn } from "@clerk/nextjs";
 export default async function GroupPage({ params: { groupId } }: any) {
   const groupData = await db.query.group.findFirst({
     where: eq(group.id, groupId),
-    with: {
-      images: true,
-    },
   });
 
   async function uploadGroupImages({ urls }: { urls: string[] }) {
