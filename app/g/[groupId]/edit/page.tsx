@@ -1,17 +1,5 @@
-import { revalidatePath } from "next/cache";
-
+import { updateGroup } from "@/actions/updateGroup";
 import { GroupForm } from "@/components/GroupForm";
-
-async function editGroup({ id, ...form }: any) {
-  "use server";
-  const [{ groupId }] = await db
-    .update(group)
-    .set(form)
-    .where(eq(group.id, id))
-    .returning({ groupId: group.id });
-  return { groupId };
-}
-
 import { db, group } from "@/db";
 import { eq } from "drizzle-orm";
 
@@ -24,13 +12,11 @@ export default async function UpdateGroup({ params: { groupId } }: any) {
     "use server";
 
     if (groupData?.id) {
-      const updatedGroup = await editGroup({
+      const updatedGroup = await updateGroup({
         ...values,
         photosUrls: groupData?.photosUrls,
         id: groupData.id,
       });
-
-      revalidatePath(`/g/${updatedGroup.groupId}`);
 
       return updatedGroup;
     }

@@ -1,23 +1,5 @@
-import { revalidatePath } from "next/cache";
-
-import { GroupForm } from "../../../components/GroupForm";
-
-import { db, group } from "@/db";
-async function createGroup(form: any) {
-  "use server";
-  const [{ groupId }] = await db
-    .insert(group)
-    .values({
-      ...form,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    })
-    .returning({ groupId: group.id });
-
-  revalidatePath(`/gallery`);
-
-  return { groupId };
-}
+import { createGroup } from "@/actions/createGroup";
+import { GroupForm } from "@/components/GroupForm";
 
 export default function NewGroup() {
   return (
