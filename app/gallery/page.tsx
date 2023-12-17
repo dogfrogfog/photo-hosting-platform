@@ -8,13 +8,11 @@ import { GroupsGallery } from "@/components/GroupsGallery";
 export default function PersonalGallery() {
   return (
     <>
-      <h1 className="mb-24 text-3xl font-semibold">Groups of photos</h1>
-      {/* actions */}
-      <div className="flex justify-between">
+      <div className="mb-12 flex justify-between">
+        <h1 className="text-3xl font-semibold">Groups of photos</h1>
         <Button>
           <Link href="/g/new">Add new group</Link>
         </Button>
-        <Button variant="outline">Filter 1</Button>
       </div>
       <Separator className="my-6" />
       <Suspense fallback={"loading..."}>

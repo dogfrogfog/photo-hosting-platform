@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { db, group } from "@/db";
+import { currentUser } from "@clerk/nextjs";
 import { format } from "date-fns";
 import { desc, eq } from "drizzle-orm";
 import { boolean } from "drizzle-orm/mysql-core";
@@ -15,12 +16,22 @@ import Link from "next/link";
 export async function GroupsGallery(
   { onlyPublicGroups = false } = { onlyPublicGroups: boolean },
 ) {
+  const user = await currentUser();
+
+  if (!onlyPublicGroups && !user) {
+    return "Auth error";
+  }
+
   const data = await db
     .select()
     .from(group)
-    .where(onlyPublicGroups ? eq(group.public, true) : undefined)
-    .orderBy(desc(group.updatedAt))
-    .limit(30);
+    .where(
+      onlyPublicGroups
+        ? eq(group.public, true)
+        : // @ts-ignore
+          eq(group.userClerkId, user.id),
+    )
+    .orderBy(desc(group.updatedAt));
 
   return (
     <div className="grid grid-cols-2 gap-6 xl:grid-cols-3">
