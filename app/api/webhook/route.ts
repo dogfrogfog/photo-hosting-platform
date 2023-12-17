@@ -63,12 +63,12 @@ export async function POST(req: Request) {
   const eventType = evt.type;
   const clerkId = id as string;
 
-  const primaryEmail = email_addresses.find(
-    (email) => email.id === primary_email_address_id,
-  )?.email_address;
-
   switch (eventType) {
     case "user.created":
+      const primaryEmail = email_addresses.find(
+        (email) => email.id === primary_email_address_id,
+      )?.email_address;
+
       await db.insert(user).values({
         clerkId: id,
         firstName: first_name,
