@@ -1,12 +1,21 @@
 import { updateGroup } from "@/actions/updateGroup";
 import { GroupForm } from "@/components/GroupForm";
 import { db, group } from "@/db";
+import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 export default async function UpdateGroup({ params: { groupId } }: any) {
   const groupData = await db.query.group.findFirst({
     where: eq(group.id, groupId),
   });
+  const { userId } = auth();
+
+  if (!userId || groupData?.userClerkId !== userId) {
+    redirect("/");
+  }
+
+  console.log(groupData);
 
   async function handleSubmit(values: any) {
     "use server";
