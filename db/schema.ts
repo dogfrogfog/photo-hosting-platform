@@ -19,34 +19,27 @@ export const group = pgTable("group", {
   updatedAt: timestamp("updated_at"),
   photosUrls: text("photos_urls").array(),
   public: boolean("public").default(false),
+  userId: integer("user_id"),
 });
-
-export const image = pgTable("image", {
-  id: serial("id").primaryKey(),
-  createdAt: timestamp("created_at"),
-  filename: text("filename"),
-  publicId: text("public_id"),
-  publicUrl: text("public_url"),
-  groupId: integer("group_id"),
-});
-
-export const groupsRelations = relations(group, ({ many }) => ({
-  images: many(image),
-}));
-
-export const imagesRelations = relations(image, ({ one }) => ({
-  group: one(group, {
-    fields: [image.groupId],
-    references: [group.id],
-  }),
-}));
 
 export const user = pgTable("user", {
   id: serial("id").primaryKey(),
-  clerkId: text("clerk_id"),
-  firstName: text("first_name"),
-  lastName: text("last_name"),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
+  clerkId: text("clerk_id").unique(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  email: text("email").unique(),
   role: text("role").default("user"),
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+  groups: many(group),
+}));
+
+export const groupRelations = relations(group, ({ one }) => ({
+  user: one(user, {
+    fields: [group.userId],
+    references: [user.id],
+  }),
+}));

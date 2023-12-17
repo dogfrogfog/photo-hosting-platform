@@ -1,4 +1,4 @@
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { UserJSON, WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
@@ -53,30 +53,43 @@ export async function POST(req: Request) {
 
   // Get the ID and type
   // @ts-ignore
-  const { id, first_name, last_name } = evt.data;
+  const {
+    id,
+    first_name,
+    last_name,
+    email_addresses,
+    primary_email_address_id,
+  } = evt.data as UserJSON;
   const eventType = evt.type;
   const clerkId = id as string;
 
+  const primaryEmail = email_addresses.find(
+    (email) => email.id === primary_email_address_id,
+  )?.email_address;
+
   switch (eventType) {
     case "user.created":
-      console.log("created");
       await db.insert(user).values({
         clerkId: id,
         firstName: first_name,
         lastName: last_name,
+        email: primaryEmail,
         updatedAt: new Date(),
         createdAt: new Date(),
       });
       break;
     case "user.updated":
-      console.log("updated");
       await db
         .update(user)
-        .set({ firstName: first_name, lastName: last_name })
+        .set({
+          firstName: first_name,
+          lastName: last_name,
+          email: primaryEmail,
+          updatedAt: new Date(),
+        })
         .where(eq(user.clerkId, clerkId));
       break;
     case "user.deleted":
-      console.log("deleted");
       await db.delete(user).where(eq(user.clerkId, clerkId));
       break;
     default:
