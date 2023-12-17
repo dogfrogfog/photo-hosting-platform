@@ -1,7 +1,7 @@
+import { deleteGroup } from "@/actions/deleteGroup";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { DeleteAndConfirm } from "@/components/DeleteAndConfirm";
 import { ImagesGallery } from "@/components/ImagesGallery";
@@ -35,11 +35,9 @@ export default async function GroupPage({ params: { groupId } }: any) {
       .where(eq(group.id, groupId));
   }
 
-  async function deleteGroup() {
+  async function handleDeleteGroup() {
     "use server";
-    await db.delete(group).where(eq(group.id, groupId));
-
-    redirect("/gallery");
+    await deleteGroup(groupId);
   }
 
   return (
@@ -52,7 +50,7 @@ export default async function GroupPage({ params: { groupId } }: any) {
             <Button asChild variant={"outline"}>
               <Link href={`/g/${groupId}/edit`}>Edit</Link>
             </Button>
-            <DeleteAndConfirm deleteGroup={deleteGroup} />
+            <DeleteAndConfirm deleteGroup={handleDeleteGroup} />
           </div>
         </SignedIn>
       </div>
