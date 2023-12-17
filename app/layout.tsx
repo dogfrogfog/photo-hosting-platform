@@ -9,10 +9,14 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Courier_Prime } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const courierPrime = Courier_Prime({
+  style: "normal",
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "online film albums",
@@ -28,7 +32,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={courierPrime.className}>
           <Sidebar />
           <div className="sm:ml-48 lg:ml-64">
             <header className="m-3 flex h-20 items-center justify-end rounded-xl bg-gray-500 p-6 shadow-xl">
