@@ -61,13 +61,13 @@ export function GroupForm({
   async function handleSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const { groupId } = await onSubmit(values);
+      const { slug } = await onSubmit(values);
 
       form.reset();
       toast({
         description: `Group "${values.name}" created/updated 🎉!`,
       });
-      router.push(`/g/${groupId}`);
+      router.push(`/g/${slug}`);
     } catch (e) {
       console.log("failed to create group");
       console.log(e);

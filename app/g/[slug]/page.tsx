@@ -10,9 +10,9 @@ import { UploadButton } from "@/components/UploadButton";
 import { Button } from "@/components/ui/button";
 import { db, group } from "@/db";
 
-export default async function GroupPage({ params: { groupId } }: any) {
+export default async function GroupPage({ params: { slug } }: any) {
   const groupData = await db.query.group.findFirst({
-    where: eq(group.id, groupId),
+    where: eq(group.slug, slug),
   });
   const { userId } = auth();
 
@@ -23,7 +23,7 @@ export default async function GroupPage({ params: { groupId } }: any) {
         photosUrls: group.photosUrls,
       })
       .from(group)
-      .where(eq(group.id, groupId));
+      .where(eq(group.slug, slug));
 
     const existingImagesUrls = currentGroup[0]?.photosUrls || [];
 
@@ -33,12 +33,12 @@ export default async function GroupPage({ params: { groupId } }: any) {
         photosUrls: [...existingImagesUrls, ...urls],
         updatedAt: new Date(),
       })
-      .where(eq(group.id, groupId));
+      .where(eq(group.slug, slug));
   }
 
   async function handleDeleteGroup() {
     "use server";
-    await deleteGroup(groupId);
+    await deleteGroup(slug);
   }
 
   return (
@@ -49,7 +49,7 @@ export default async function GroupPage({ params: { groupId } }: any) {
           <div className="space-x-4">
             <UploadButton uploadGroupImages={uploadGroupImages} />
             <Button asChild variant={"outline"}>
-              <Link href={`/g/${groupId}/edit`}>Edit</Link>
+              <Link href={`/g/${slug}/edit`}>Edit</Link>
             </Button>
             <DeleteAndConfirm deleteGroup={handleDeleteGroup} />
           </div>

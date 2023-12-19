@@ -1,6 +1,5 @@
-import { Suspense } from "react";
-
 import { GroupsGallery } from "@/components/GroupsGallery";
+import { Suspense } from "react";
 
 export default async function Home() {
   return (

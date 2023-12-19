@@ -5,7 +5,10 @@ import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 
 export default async function NewGroup() {
-  const { userId } = auth();
+  const { userId, user: clerkUser } = auth();
+
+  console.log("clerkUser");
+  console.log(clerkUser);
 
   if (!userId) {
     return "you can create group only if you are logged in";

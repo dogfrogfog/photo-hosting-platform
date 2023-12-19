@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs";
+import hash from "hash-it";
 import { revalidatePath } from "next/cache";
 
 import { db, group } from "@/db";
@@ -11,17 +12,18 @@ export async function createGroup(form: any) {
     throw new Error("You must be signed in to create new group");
   }
 
-  const [{ groupId }] = await db
+  const [{ slug }] = await db
     .insert(group)
     .values({
       ...form,
+      slug: hash(userId + form.name + Date.now()),
       createdAt: new Date(),
       updatedAt: new Date(),
       userClerkId: userId,
     })
-    .returning({ groupId: group.id });
+    .returning({ slug: group.slug });
 
   revalidatePath(`/gallery`);
 
-  return { groupId };
+  return { slug };
 }

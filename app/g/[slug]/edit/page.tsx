@@ -5,9 +5,9 @@ import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
-export default async function UpdateGroup({ params: { groupId } }: any) {
+export default async function UpdateGroup({ params: { slug } }: any) {
   const groupData = await db.query.group.findFirst({
-    where: eq(group.id, groupId),
+    where: eq(group.slug, slug),
   });
   const { userId } = auth();
 

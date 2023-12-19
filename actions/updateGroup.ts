@@ -12,13 +12,13 @@ export async function updateGroup({ id, ...form }: any) {
     throw new Error("You must be signed in to update group");
   }
 
-  const [{ groupId }] = await db
+  const [{ slug }] = await db
     .update(group)
     .set(form)
     .where(eq(group.id, id))
-    .returning({ groupId: group.id });
+    .returning({ slug: group.slug });
 
-  revalidatePath(`/g/${groupId}`);
+  revalidatePath(`/g/${slug}`);
 
-  return { groupId };
+  return { slug };
 }

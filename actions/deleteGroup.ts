@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { db, group } from "@/db";
 
-export async function deleteGroup(groupId: number) {
+export async function deleteGroup(slug: string) {
   "use server";
   const { userId } = auth();
 
@@ -12,7 +12,7 @@ export async function deleteGroup(groupId: number) {
     throw new Error("You must be signed in to delete group");
   }
 
-  await db.delete(group).where(eq(group.id, groupId));
+  await db.delete(group).where(eq(group.slug, slug));
 
   redirect("/gallery");
 }

@@ -1,5 +1,5 @@
 import { db, user } from "@/db";
-import { auth } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 
 export async function changeUserRole({ code }: any) {
@@ -13,6 +13,12 @@ export async function changeUserRole({ code }: any) {
   if (code !== process.env.PREMIUM_CODE) {
     throw new Error("Code is incorrect");
   }
+
+  await clerkClient.users.updateUserMetadata(userId, {
+    privateMetadata: {
+      role: "premium",
+    },
+  });
 
   await db
     .update(user)
