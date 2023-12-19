@@ -1,34 +1,26 @@
+import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+
 import { createGroup } from "@/actions/createGroup";
 import { GroupForm } from "@/components/GroupForm";
-import { db, user } from "@/db";
-import { auth } from "@clerk/nextjs";
-import { eq } from "drizzle-orm";
+import { Separator } from "@/components/ui/separator";
 
 export default async function NewGroup() {
-  const { userId, user: clerkUser } = auth();
+  const user = await currentUser();
 
-  console.log("clerkUser");
-  console.log(clerkUser);
-
-  if (!userId) {
-    return "you can create group only if you are logged in";
+  if (!user) {
+    redirect("/");
   }
 
-  const currentUser = await db.query.user.findFirst({
-    where: eq(user.clerkId, userId),
-    columns: {
-      role: true,
-    },
-  });
-
-  if (currentUser?.role !== "premium") {
+  if (user.privateMetadata?.role !== "premium") {
     return "only premium users can create groups, upgrade to premium";
   }
 
   return (
-    <main className="p-12">
-      <h1 className="mb-6 text-3xl font-semibold">New group</h1>
+    <>
+      <h1 className="text-3xl font-semibold">New album</h1>
+      <Separator className="my-6" />
       <GroupForm onSubmit={createGroup} />
-    </main>
+    </>
   );
 }

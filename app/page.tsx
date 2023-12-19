@@ -1,14 +1,15 @@
-import { GroupsGallery } from "@/components/GroupsGallery";
 import { Suspense } from "react";
+
+import { GallerySkeleton } from "@/components/GallerySkeleton";
+import { GroupsGallery } from "@/components/GroupsGallery";
+
+export const revalidate = 3600;
 
 export default async function Home() {
   return (
-    <>
-      <h1 className="mb-12 text-3xl font-semibold">home page</h1>
-      <Suspense fallback={"loading..."}>
-        {/* @ts-ignore */}
-        <GroupsGallery onlyPublicGroups />
-      </Suspense>
-    </>
+    <Suspense fallback={<GallerySkeleton />}>
+      {/* @ts-ignore */}
+      <GroupsGallery onlyPublicGroups />
+    </Suspense>
   );
 }

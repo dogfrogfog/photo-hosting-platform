@@ -9,7 +9,7 @@ export async function createGroup(form: any) {
   const { userId } = auth();
 
   if (!userId) {
-    throw new Error("You must be signed in to create new group");
+    throw new Error("You must be signed in to create new album");
   }
 
   const [{ slug }] = await db

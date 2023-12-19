@@ -69,11 +69,11 @@ export function UserRoleForm({ onSubmit }: any) {
           name="code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Premium code</FormLabel>
+              <FormLabel>Premium code to become power user</FormLabel>
               <FormControl>
                 <Input
                   disabled={isLoading}
-                  placeholder="ztg)Pv#TAKuM9pW*"
+                  placeholder="#############"
                   {...field}
                 />
               </FormControl>

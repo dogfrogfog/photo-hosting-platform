@@ -40,7 +40,7 @@ export async function GroupsGallery(
           <Link
             href={`/g/${slug}`}
             key={slug}
-            className="col-span-2 md:col-span-1"
+            className="col-span-2 overflow-hidden md:col-span-1"
           >
             <Card>
               <CardHeader>

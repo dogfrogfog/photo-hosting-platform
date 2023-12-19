@@ -3,15 +3,18 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-  auth,
+  currentUser,
 } from "@clerk/nextjs";
+import Link from "next/link";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib";
 import { LinksList } from "./LinksList";
 
-export default function Sidebar() {
-  const { userId } = auth();
+export default async function Sidebar() {
+  const user = await currentUser();
+
+  const isPremiumUser = !!user?.privateMetadata?.role;
 
   return (
     <>
@@ -20,8 +23,15 @@ export default function Sidebar() {
           <div className="mb-16 p-6 text-3xl font-bold text-yellow-500">
             logo
           </div>
-          <LinksList withUser={!!userId} />
+          <LinksList withUser={!!user} withPremiumUser={isPremiumUser} />
         </div>
+        {isPremiumUser && (
+          <Button className="mx-6" asChild variant="outline">
+            <Link href="/g/new" className="!justify-start">
+              New Album
+            </Link>
+          </Button>
+        )}
         <div>
           <div className="p-6">
             <SignedOut>

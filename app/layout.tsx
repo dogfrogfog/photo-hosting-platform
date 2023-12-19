@@ -26,8 +26,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={courierPrime.className}>
+          {/* @ts-ignore */}
           <Sidebar />
-          <div className="sm:ml-48 lg:ml-64">
+          <div className="ml-48 lg:ml-64">
             <main className="p-6">{children}</main>
           </div>
           <Toaster />

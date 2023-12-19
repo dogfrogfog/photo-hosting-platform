@@ -5,6 +5,8 @@ import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
+import { Separator } from "@/components/ui/separator";
+
 export default async function UpdateGroup({ params: { slug } }: any) {
   const groupData = await db.query.group.findFirst({
     where: eq(group.slug, slug),
@@ -14,8 +16,6 @@ export default async function UpdateGroup({ params: { slug } }: any) {
   if (!userId || groupData?.userClerkId !== userId) {
     redirect("/");
   }
-
-  console.log(groupData);
 
   async function handleSubmit(values: any) {
     "use server";
@@ -33,9 +33,10 @@ export default async function UpdateGroup({ params: { slug } }: any) {
 
   return (
     <>
-      <h1 className="mb-12 text-3xl font-semibold">
-        Edit {`"${groupData?.name}"`} group
+      <h1 className="text-3xl font-semibold">
+        Edit <span className="italic">{groupData?.name}</span> Album
       </h1>
+      <Separator className="my-6" />
       <GroupForm initialData={groupData} onSubmit={handleSubmit} />
     </>
   );
