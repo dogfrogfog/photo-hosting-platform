@@ -12,7 +12,10 @@ export const group = pgTable("group", {
   updatedAt: timestamp("updated_at"),
   photosUrls: text("photos_urls").array(),
   public: boolean("public").default(false),
-  userClerkId: text("user_clerk_id").notNull(),
+  userClerkId: text("user_clerk_id")
+    .references(() => user.clerkId, { onDelete: "cascade" })
+    .notNull(),
+  slug: text("slug").unique().notNull(),
 });
 
 export const user = pgTable("user", {
