@@ -14,8 +14,8 @@ export function LinksList({
   const pathname = usePathname();
 
   return (
-    <ul className="font-bold text-gray-500">
-      <li className="hover:bg-gray-400 hover:bg-opacity-20">
+    <ul className="font-bold text-zinc-400">
+      <li className="hover:bg-zinc-400 hover:bg-opacity-20">
         <Link
           href="/"
           className={cn("group flex items-center px-6 py-3", {
@@ -40,7 +40,7 @@ export function LinksList({
         </Link>
       </li>
       {withPremiumUser && (
-        <li className="hover:bg-gray-400 hover:bg-opacity-20">
+        <li className="hover:bg-zinc-400 hover:bg-opacity-20">
           <Link
             href="/gallery"
             className={cn("group flex items-center px-6 py-3", {
@@ -66,7 +66,7 @@ export function LinksList({
         </li>
       )}
       {withUser && (
-        <li className="hover:bg-gray-400 hover:bg-opacity-20">
+        <li className="hover:bg-zinc-400 hover:bg-opacity-20">
           <Link
             href="/settings"
             className={cn("group flex items-center px-6 py-3", {
