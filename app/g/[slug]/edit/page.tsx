@@ -1,9 +1,10 @@
-import { updateGroup } from "@/actions/updateGroup";
 import { GroupForm } from "@/components/GroupForm";
 import { db, group } from "@/db";
 import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+
+import { revalidatePath } from "next/cache";
 
 import { Separator } from "@/components/ui/separator";
 
@@ -19,15 +20,29 @@ export default async function UpdateGroup({ params: { slug } }: any) {
 
   async function handleSubmit(values: any) {
     "use server";
-
     if (groupData?.id) {
-      const updatedGroup = await updateGroup({
+      const { userId } = auth();
+
+      console.log("server hit");
+
+      if (!userId) {
+        throw new Error("You must be signed in to update group");
+      }
+
+      const form = {
         ...values,
         photosUrls: groupData?.photosUrls,
-        id: groupData.id,
-      });
+      };
 
-      return updatedGroup;
+      const [{ slug }] = await db
+        .update(group)
+        .set(form)
+        .where(eq(group.id, groupData.id))
+        .returning({ slug: group.slug });
+
+      revalidatePath(`/g/${slug}`);
+
+      return { slug };
     }
   }
 
