@@ -23,8 +23,6 @@ export default async function UpdateGroup({ params: { slug } }: any) {
     if (groupData?.id) {
       const { userId } = auth();
 
-      console.log("server hit");
-
       if (!userId) {
         throw new Error("You must be signed in to update group");
       }
