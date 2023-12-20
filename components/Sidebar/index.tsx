@@ -18,7 +18,7 @@ export default async function Sidebar() {
 
   return (
     <>
-      <aside className="fixed left-0 top-0 z-40 flex h-screen w-48 flex-col justify-between bg-black lg:w-64">
+      <aside className="fixed left-0 top-0 flex h-screen w-48 flex-col justify-between bg-black lg:w-64">
         <div>
           <div className="mb-16 p-6 text-3xl font-bold text-yellow-500">
             logo
