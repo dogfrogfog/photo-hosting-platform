@@ -29,7 +29,9 @@ export function UserRoleForm({ onSubmit }: any) {
   const router = useRouter();
 
   const attemptsCount =
-    parseInt(localStorage.getItem("premium_code_attempts") || "") || 0;
+    (localStorage &&
+      parseInt(localStorage.getItem("premium_code_attempts") || "")) ||
+    0;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
