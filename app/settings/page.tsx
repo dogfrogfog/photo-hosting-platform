@@ -2,6 +2,7 @@ import { UserRoleForm } from "@/components/UserRoleForm";
 import { db, user } from "@/db";
 import { auth, clerkClient } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export default function SettingsPage() {
   async function changeUserRole({ code }: any) {
@@ -31,6 +32,8 @@ export default function SettingsPage() {
         updatedAt: new Date(),
       })
       .where(eq(user.clerkId, userId));
+
+    revalidatePath("/");
   }
 
   return <UserRoleForm onSubmit={changeUserRole} />;
