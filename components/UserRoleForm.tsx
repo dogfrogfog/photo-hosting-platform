@@ -29,8 +29,8 @@ export function UserRoleForm({ onSubmit }: any) {
   const router = useRouter();
 
   const attemptsCount =
-    (localStorage &&
-      parseInt(localStorage.getItem("premium_code_attempts") || "")) ||
+    (global.localStorage &&
+      parseInt(global.localStorage.getItem("premium_code_attempts") || "")) ||
     0;
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -57,7 +57,10 @@ export function UserRoleForm({ onSubmit }: any) {
       console.log("failed to updare user role");
       console.log(e);
 
-      localStorage.setItem("premium_code_attempts", `${attemptsCount + 1}`);
+      global.localStorage.setItem(
+        "premium_code_attempts",
+        `${attemptsCount + 1}`,
+      );
     } finally {
       setIsLoading(false);
     }
