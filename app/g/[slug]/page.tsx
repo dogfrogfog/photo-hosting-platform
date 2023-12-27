@@ -1,4 +1,3 @@
-import { deleteGroup } from "@/actions/deleteGroup";
 import { auth } from "@clerk/nextjs";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
@@ -11,9 +10,24 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db, group } from "@/db";
 
+import { redirect } from "next/navigation";
+
 export const revalidate = 3600;
 
 export default async function GroupPage({ params: { slug } }: any) {
+  async function deleteGroup() {
+    "use server";
+    const { userId } = auth();
+
+    if (!userId) {
+      throw new Error("You must be signed in to delete group");
+    }
+
+    await db.delete(group).where(eq(group.slug, slug));
+
+    redirect("/gallery");
+  }
+
   const groupData = await db.query.group.findFirst({
     where: eq(group.slug, slug),
   });
@@ -37,11 +51,6 @@ export default async function GroupPage({ params: { slug } }: any) {
         updatedAt: new Date(),
       })
       .where(eq(group.slug, slug));
-  }
-
-  async function handleDeleteGroup() {
-    "use server";
-    await deleteGroup(slug);
   }
 
   return (
@@ -69,7 +78,7 @@ export default async function GroupPage({ params: { slug } }: any) {
                 </svg>
               </Link>
             </Button>
-            <DeleteAndConfirm deleteGroup={handleDeleteGroup} />
+            <DeleteAndConfirm deleteGroup={deleteGroup} />
           </div>
         )}
       </div>
