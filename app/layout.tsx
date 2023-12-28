@@ -28,8 +28,8 @@ export default function RootLayout({
         <body className={courierPrime.className}>
           {/* @ts-ignore */}
           <Sidebar />
-          <div className="ml-48 lg:ml-64">
-            <main className="p-6">{children}</main>
+          <div className="ml-48 scroll-smooth lg:ml-64">
+            <main className="p-12">{children}</main>
           </div>
           <Toaster />
         </body>
