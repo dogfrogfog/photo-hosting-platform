@@ -12,8 +12,6 @@ import { db, group } from "@/db";
 
 import { redirect } from "next/navigation";
 
-export const revalidate = 3600;
-
 export default async function GroupPage({ params: { slug } }: any) {
   async function deleteGroup() {
     "use server";
