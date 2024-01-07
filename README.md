@@ -24,6 +24,10 @@ PostgreSQL + Drizzle orm
 
 Clerk (including webhook to sync users with database)
 
+## Images hosting
+
+Cloudinary
+
 ## Functionality
 
 - Unsigned user can view public albums
