@@ -1,10 +1,16 @@
 import { UserRoleForm } from "@/components/UserRoleForm";
 import { db, user } from "@/db";
-import { auth, clerkClient } from "@clerk/nextjs";
+import {
+  auth,
+  clerkClient,
+  currentUser as getCurrentUser,
+} from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const currentUser = await getCurrentUser();
+
   async function changeUserRole({ code }: any) {
     "use server";
     const { userId } = auth();
@@ -16,8 +22,6 @@ export default function SettingsPage() {
     if (code !== process.env.PREMIUM_CODE) {
       throw new Error("Code is incorrect");
     }
-
-    console.log(2222);
 
     await clerkClient.users.updateUserMetadata(userId, {
       privateMetadata: {
@@ -36,5 +40,10 @@ export default function SettingsPage() {
     revalidatePath("/");
   }
 
-  return <UserRoleForm onSubmit={changeUserRole} />;
+  return (
+    <UserRoleForm
+      isPremiumUser={currentUser?.privateMetadata.role === "premium"}
+      onSubmit={changeUserRole}
+    />
+  );
 }

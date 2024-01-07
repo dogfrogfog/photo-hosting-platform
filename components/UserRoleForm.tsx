@@ -23,7 +23,13 @@ const formSchema = z.object({
   }),
 });
 
-export function UserRoleForm({ onSubmit }: any) {
+export function UserRoleForm({
+  onSubmit,
+  isPremiumUser = false,
+}: {
+  onSubmit: any;
+  isPremiumUser: boolean;
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -69,26 +75,32 @@ export function UserRoleForm({ onSubmit }: any) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="code"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Premium code to become power user</FormLabel>
-              <FormControl>
-                <Input
-                  disabled={isLoading}
-                  placeholder="#############"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button disabled={isLoading || attemptsCount > 3} type="submit">
-          Submit
-        </Button>
+        {isPremiumUser ? (
+          "You are premium user"
+        ) : (
+          <>
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Premium code to become power user</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      placeholder="#############"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button disabled={isLoading || attemptsCount > 3} type="submit">
+              Submit
+            </Button>
+          </>
+        )}
       </form>
     </Form>
   );
